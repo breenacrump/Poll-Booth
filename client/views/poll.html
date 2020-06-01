@@ -37,6 +37,7 @@
                         </div>
                     </div>
                 </div>
+                {{#if hasUserVoted}}
 				<div class="row poll-details-results">
 					<div class="col-sm-12">
 						Here are the results so far:
@@ -50,6 +51,7 @@
 						</div>
 					</div>
 				</div>
+                {{/if}}
                 <div class="row poll-details-ballet">
                     {{#unless hasUserVoted}}
 					<div class="col-sm-12">

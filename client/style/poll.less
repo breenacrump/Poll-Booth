@@ -13,6 +13,22 @@
 	border-radius: 3px;
 	border: 1px solid @medium-blue-gray;
 	padding: 5px;
+
+	input:invalid {
+		content:"*";
+		border-color: #ff284d;
+	}
+
+	.new-poll-title-invalid{
+		margin-bottom: 0 !important;
+	}
+
+	.new-poll-title-required {
+		color: #e52648;
+		display: flex;
+		padding-left: 16px;
+	}
+
 }
 
 //POLL DETAILS
