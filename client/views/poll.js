@@ -1,16 +1,30 @@
+Template.pollListItem.events = {
+	'click button[data-action="view-poll"]': function(event){
+		event.preventDefault();
+		Router.go("/poll/" + this._id);
+	}
+};
+
+Template.pollListItem.helpers({
+    'allVotes': function () {
+        var poll = Template.currentData();
+		var currentPollVotes = [];
+
+        Votes.find().forEach(function (vote) {
+			if (vote.pollId === poll._id){
+                currentPollVotes.push(vote);
+			}
+		});
+        return currentPollVotes.length;
+    }
+});
+
 Template.pollDetails.created = function(){
     var template = this;
     template.isSubmitted = new ReactiveVar(false);
     template.hasSubmissionError = new ReactiveVar(false);
     template.hasPollEnded = new ReactiveVar(false);
     template.hasUserVoted = new ReactiveVar(false);
-};
-
-Template.pollListItem.events = {
-	'click button[data-action="view-poll"]': function(event){
-		event.preventDefault();
-		Router.go("/poll/" + this._id);
-	}
 };
 
 Template.pollDetails.events = {
@@ -48,7 +62,7 @@ Template.pollDetails.helpers({
     'isPollClosed': function () {
         var template = Template.instance();
         var poll = Template.currentData();
-        var hasPollEnded = poll.endTime ? moment(poll.endTime).isBefore(moment()) : false;
+        var hasPollEnded = poll.endTime ? moment(new Date(poll.endTime)).isBefore(moment()) : false;
         if (hasPollEnded) {
         	template.hasPollEnded.set(true);
 		}

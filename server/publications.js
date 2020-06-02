@@ -4,7 +4,11 @@
 
 Meteor.publish('polls', function () {
 	check(arguments, [Match.Any]);
-	return Polls.find({});
+	return [
+		Polls.find({}),
+		Votes.find({})
+	]
+
 });
 
 
