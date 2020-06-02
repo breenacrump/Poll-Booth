@@ -2,6 +2,8 @@ Template.pollDetails.created = function(){
     var template = this;
     template.isSubmitted = new ReactiveVar(false);
     template.hasSubmissionError = new ReactiveVar(false);
+    template.hasPollEnded = new ReactiveVar(false);
+    template.hasUserVoted = new ReactiveVar(false);
 };
 
 Template.pollListItem.events = {
@@ -43,8 +45,18 @@ Template.pollDetails.helpers({
 		var pollOption = this;
 		return Votes.find({option: pollOption.valueOf()}).count();
 	},
-    'hasUserVoted': function () {
+    'isPollClosed': function () {
+        var template = Template.instance();
         var poll = Template.currentData();
-        return Votes.findOne({userId: Meteor.userId(), pollId: poll._id});
+        var hasPollEnded = poll.endTime ? moment(poll.endTime).isBefore(moment()) : false;
+        if (hasPollEnded) {
+        	template.hasPollEnded.set(true);
+		}
+		var isVoteSubmitted = Votes.findOne({userId: Meteor.userId(), pollId: poll._id});
+		if (isVoteSubmitted) {
+            template.hasUserVoted.set(true);
+		}
+
+        return poll.endTime ? (isVoteSubmitted || hasPollEnded) : isVoteSubmitted;
     }
 });

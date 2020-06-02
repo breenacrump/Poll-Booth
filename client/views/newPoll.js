@@ -6,6 +6,17 @@ Template.newPoll.created = function(){
 	template.isOptionCountInvalid = new ReactiveVar(false);
 };
 
+// Template.newPoll.rendered = function() {
+//     // var template = Template.instance();
+//     // this.$('.datetimepicker').datetimepicker({
+//     // }).on('dp.change', function(e){
+//     //     Session.set("selected", e.date.format());
+//     // });
+//     this.$('#datetimepicker').datetimepicker({
+//
+// 	});
+// };
+
 Template.newPoll.events = {
 	'click button[data-action="open-new-poll-input"]': function(event){
 		event.preventDefault();
@@ -24,6 +35,8 @@ Template.newPoll.events = {
 		event.preventDefault();
 		var template = Template.instance();
 		var options = getOptions();
+        var endTime = template.$('#datetimepicker').data().date;
+
 		// If the poll has a title and at least two options then allow the insert
 		if (template.$('#newPollTitle').val() && options.length >= 2) {
             Polls.insert({
@@ -31,7 +44,8 @@ Template.newPoll.events = {
             	title: template.$('#newPollTitle').val(),
             	description: template.$('#newPollDescription').val(),
             	timestamp: moment().valueOf(),
-            	options: options
+            	options: options,
+                endTime: endTime
             });
             template.creatingPoll.set(false);
 		} else {

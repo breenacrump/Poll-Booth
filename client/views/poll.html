@@ -1,6 +1,9 @@
 <template name="pollListItem">
 	<div class="poll-list-item">
         <div class="row">
+            <div class="col-sm-12">
+                End Time: {{#if endTime}} {{endTime}} {{else}} None {{/if}}
+            </div>
             <div class="col-sm-12 text-center">
 				<div class="poll-list-item-title">
                     {{title}}
@@ -15,76 +18,83 @@
 
 <template name="pollDetails">
     {{#if currentUser}}
-    <div class="container">
-        <div class="row">
-            <div id="pollDetails" class="col-sm-6 col-sm-offset-3">
-                <div class="row">
-                    <div class="col-sm-8">
-                        <div class="poll-details-title">
-                            {{title}}
-                        </div>
-                    </div>
-                    <div class="col-sm-4 text-right">
-                        <div class="poll-details-creation-date">
-                            <i class="fa fa-calendar"></i> {{getTimeAgoFormat timestamp}}
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="poll-details-description">
-                            {{description}}
-                        </div>
-                    </div>
-                </div>
-                {{#if hasUserVoted}}
-				<div class="row poll-details-results">
-					<div class="col-sm-12">
-						Here are the results so far:
-						<div class="text-center">
-                            {{#each options}}
-							<div class="poll-details-result-option">
-								<span class="poll-details-result-option-text">{{this}}: </span>
-								<span class="poll-details-result-option-vote-count">{{voteCountForOption}}</span>
+        <div class="container">
+            <div class="row">
+                <div id="pollDetails" class="col-sm-6 col-sm-offset-3">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="poll-details-title">
+                                {{title}}
                             </div>
-                            {{/each}}
-						</div>
-					</div>
-				</div>
-                {{/if}}
-                <div class="row poll-details-ballet">
-                    {{#unless hasUserVoted}}
-					<div class="col-sm-12">
-                        <p>Only one vote per user</p>
-                        <p>Cast Your Vote:</p>
-						<div class="poll-details-options text-center">
-                            {{#each options}}
-                                <button class="btn btn-default" data-action="vote-on-poll">{{this}}</button>
-                            {{/each}}
-						</div>
-					</div>
-                    {{else}}
-                    {{#if reactiveVarEquals 'isSubmitted' true}}
-                    <div>
-                        Thank you for your submission.
+                        </div>
+                        <div class="col-sm-4 text-right">
+                            <div class="poll-details-creation-date">
+                                <i class="fa fa-calendar"></i> {{getTimeAgoFormat timestamp}}
+                            </div>
+                        </div>
                     </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="poll-details-description">
+                                {{description}}
+                            </div>
+                        </div>
+                    </div>
+                    {{#if isPollClosed}}
+                        <div class="row poll-details-results">
+                            <div class="col-sm-12">
+                                Here are the results so far:
+                                <div class="text-center">
+                                    {{#each options}}
+                                        <div class="poll-details-result-option">
+                                            <span class="poll-details-result-option-text">{{this}}: </span>
+                                            <span class="poll-details-result-option-vote-count">{{voteCountForOption}}</span>
+                                        </div>
+                                    {{/each}}
+                                </div>
+                            </div>
+                        </div>
                     {{/if}}
-                    <div>
-                        Your vote was submitted. Only one vote per user.
+                    <div class="row poll-details-ballet">
+                        {{#unless isPollClosed}}
+                            <div class="col-sm-12">
+                                <p>Only one vote per user</p>
+                                <p>Cast Your Vote:</p>
+                                <div class="poll-details-options text-center">
+                                    {{#each options}}
+                                        <button class="btn btn-default" data-action="vote-on-poll">{{this}}</button>
+                                    {{/each}}
+                                </div>
+                            </div>
+                        {{else}}
+                        {{#if reactiveVarEquals 'isSubmitted' true}}
+                            <div>
+                                Thank you for your submission.
+                            </div>
+                        {{/if}}
+                        {{#if reactiveVarEquals 'hasUserVoted' true}}
+                            <div>
+                                Your vote was submitted. Only one vote per user.
+                            </div>
+                        {{/if}}
+                        {{/unless}}
+                        {{#if reactiveVarEquals 'hasPollEnded' true}}
+                            <div>
+                                Poll is closed. Please try another open poll.
+                            </div>
+                        {{/if}}
+                        {{#if reactiveVarEquals 'hasSubmissionError' true}}
+                            <div>
+                                Submission error. Please try again.
+                            </div>
+                        {{/if}}
                     </div>
-                    {{/unless}}
-                    {{#if reactiveVarEquals 'hasSubmissionError' true}}
-                    <div>
-                        Submission error. Please try again.
-                    </div>
-                    {{/if}}
                 </div>
             </div>
-		</div>
-    </div>
+        </div>
     {{else}}
-    <div class="poll-unauthenticated-container">
-        <h2>Please sign in to continue.</h2>
-    </div>
+        <div class="poll-unauthenticated-container">
+            <h2>Please sign in to continue.</h2>
+        </div>
     {{/if}}
 </template>

@@ -31,3 +31,4 @@ check
 ecmascript
 standard-minifier-css
 standard-minifier-js
+tsega:bootstrap3-datetimepicker
