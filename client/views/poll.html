@@ -69,15 +69,15 @@
                         Thank you for your submission.
                     </div>
                     {{/if}}
+                    <div>
+                        Your vote was submitted. Only one vote per user.
+                    </div>
+                    {{/unless}}
                     {{#if reactiveVarEquals 'hasSubmissionError' true}}
                     <div>
                         Submission error. Please try again.
                     </div>
                     {{/if}}
-                    <div>
-                        Your vote was submitted. Only one vote per user.
-                    </div>
-                    {{/unless}}
                 </div>
             </div>
 		</div>

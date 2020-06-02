@@ -15,7 +15,7 @@ Polls.allow({
 Votes.allow({
 	insert: function(userId, doc){
 		// Only vote if user is logged in AND the user has not voted yet
-		return userId && !Votes.findOne({userId: userId});
+		return userId && !Votes.findOne({userId: userId, pollId: doc.pollId});
     },
 	update: function(userId, doc, fields, modifier){
 		return userId;

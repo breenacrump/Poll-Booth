@@ -1,5 +1,5 @@
 <template name="newPoll">
-<div class="text-center">
+<div class="new-poll-container">
     {{#if reactiveVarEquals 'creatingPoll' false}}
 		<button class="btn btn-default" data-action="open-new-poll-input">Create New Poll</button>
     {{/if}}
@@ -10,13 +10,27 @@
 				<div class="row">
 					<input class="{{#if reactiveVarEquals 'invalid' true}}new-poll-title-invalid{{/if}}" id="newPollTitle" type="text" placeholder="Poll Title"/>
 					{{#if reactiveVarEquals 'invalid' true}}
-					<span class="new-poll-title-required">* Poll Title is required.</span>
+						<span class="new-poll-title-required">* Poll Title is required.</span>
 					{{/if}}
 				</div>
 				<div class="row">
 					<textarea id="newPollDescription" placeholder="Description of what we're voting on"></textarea>
 				</div>
-				<div class="row">
+				{{#each option in optionsCount}}
+					<div class="row">
+						<input class="new-poll-options" id="option{{@index}}" type="text" placeholder="{{option.placeholder}}"/>
+					</div>
+				{{/each}}
+				{{#if reactiveVarEquals 'isOptionCountInvalid' true}}
+					<span class="new-poll-options-count-invalid">* At least two poll options are required.</span>
+				{{/if}}
+				<div class="row new-poll-add-option-btn">
+					<button class="btn btn-sm btn-primary" data-action="add-option-new-poll" {{addBtnDisabled}}>Add Option</button>
+					{{#if addBtnDisabled}}
+						<span class="new-poll-invalid-msg">Only six options are valid.</span>
+					{{/if}}
+				</div>
+				<div class="row new-poll-dialogue-footer">
 					<button class="btn btn-default" data-action="cancel-new-poll">Cancel</button>
 					<button class="btn btn-success" data-action="create-new-poll">Create Poll</button>
 				</div>

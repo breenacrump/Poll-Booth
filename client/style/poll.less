@@ -7,28 +7,56 @@
 	margin-bottom: 10px;
 }
 
-.new-poll-dialogue{
-	width: 100%;
-	background: white;
-	border-radius: 3px;
-	border: 1px solid @medium-blue-gray;
-	padding: 5px;
+.new-poll-invalid-msg {
+	color: #e52648;
+	display: flex;
+}
 
-	input:invalid {
-		content:"*";
-		border-color: #ff284d;
-	}
+.new-poll-container {
 
-	.new-poll-title-invalid{
-		margin-bottom: 0 !important;
-	}
-
-	.new-poll-title-required {
-		color: #e52648;
+	.new-poll-dialogue {
+		width: 100%;
+		background: white;
+		border-radius: 3px;
+		border: 1px solid @medium-blue-gray;
+		padding: 5px;
 		display: flex;
-		padding-left: 16px;
-	}
+		flex-direction: column;
+		margin: 0 20px;
 
+		input:invalid {
+			border-color: #ff284d;
+		}
+
+		.new-poll-title-invalid {
+			margin-bottom: 0 !important;
+		}
+
+		.new-poll-title-required {
+			.new-poll-invalid-msg();
+			padding-left: 25px;
+		}
+
+		.new-poll-options {
+			display: flex;
+			margin: 0 0 10px 25px;
+		}
+
+		.new-poll-add-option-btn {
+			text-align: left;
+			padding: 5px 0 15px 25px;
+		}
+
+		.new-poll-options-count-invalid {
+			.new-poll-invalid-msg();
+			margin: 0 0 5px 15px;
+		}
+
+		.new-poll-dialogue-footer {
+			text-align: end;
+			padding-right: 20px;
+		}
+	}
 }
 
 //POLL DETAILS

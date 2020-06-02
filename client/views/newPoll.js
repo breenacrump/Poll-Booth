@@ -2,6 +2,8 @@ Template.newPoll.created = function(){
 	var template = this;
 	template.creatingPoll = new ReactiveVar(false);
 	template.invalid = new ReactiveVar(false);
+	template.addedOptions =  new ReactiveVar([{placeholder: 'Option 1'}, {placeholder: 'Option 2'}]);
+	template.isOptionCountInvalid = new ReactiveVar(false);
 };
 
 Template.newPoll.events = {
@@ -10,6 +12,8 @@ Template.newPoll.events = {
 		var template = Template.instance();
 		template.creatingPoll.set(true);
         template.invalid.set(false);
+        template.addedOptions =  new ReactiveVar([{placeholder: 'Option 1'}, {placeholder: 'Option 2'}]);
+        template.isOptionCountInvalid.set(false);
     },
 	'click button[data-action="cancel-new-poll"]': function(event){
 		event.preventDefault();
@@ -19,26 +23,67 @@ Template.newPoll.events = {
 	'click button[data-action="create-new-poll"]': function(event){
 		event.preventDefault();
 		var template = Template.instance();
-		console.log('title', !!template.$('#newPollTitle').val());
-		// If the poll has a title then allow the insert
-		if (template.$('#newPollTitle').val()) {
-			console.log('valid poll insert');
+		var options = getOptions();
+		// If the poll has a title and at least two options then allow the insert
+		if (template.$('#newPollTitle').val() && options.length >= 2) {
             Polls.insert({
             	userId: Meteor.userId(),
             	title: template.$('#newPollTitle').val(),
             	description: template.$('#newPollDescription').val(),
             	timestamp: moment().valueOf(),
-            	options: [
-            		'Yes',
-            		'No'
-            	]
+            	options: options
             });
             template.creatingPoll.set(false);
 		} else {
-			// Else inform the user that the poll does not have a title
-			console.log('invalid poll insert');
-            template.$('#newPollTitle').prop('required', true);
-            template.invalid.set(true);
+			// Both title and option count is invalid
+			if (!template.$('#newPollTitle').val() && options.length < 2) {
+                template.$('#newPollTitle').prop('required', true);
+                template.invalid.set(true);
+                template.isOptionCountInvalid.set(true);
+            }
+            // Else if title is invalid
+			else if (!template.$('#newPollTitle').val()){
+                template.$('#newPollTitle').prop('required', true);
+                template.invalid.set(true);
+                template.isOptionCountInvalid.set(false);
+            } else {
+				// Else option count is invalid
+                template.isOptionCountInvalid.set(true);
+                template.invalid.set(false);
+            }
 		}
-	}
+	},
+    'click button[data-action="add-option-new-poll"]': function(event){
+        event.preventDefault();
+        var template = Template.instance();
+        var current = template.addedOptions.get();
+		current.push(
+			{ placeholder: 'Option ' + (current.length + 1) }
+		);
+		template.addedOptions.set(current);
+    }
 };
+
+Template.newPoll.helpers({
+    'optionsCount': function() {
+        var template = Template.instance();
+        return template.addedOptions.get();
+    },
+    'addBtnDisabled': function () {
+        var template = Template.instance();
+		return template.addedOptions.get().length >= 6 ? "disabled" : "";
+    }
+});
+
+function getOptions() {
+	var options = [];
+    var template = Template.instance();
+    template.$('.new-poll-options').each(function (index) {
+        var optionId = '#option' + index.toString();
+        var option = template.$(optionId);
+		if (option.val()) {
+			options.push(option.val());
+		}
+    });
+    return options;
+}

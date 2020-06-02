@@ -23,14 +23,12 @@ Template.pollDetails.events = {
 		// 	throw new Meteor.Error('not-authorized');
 		// }
 
-		console.log('poll', Votes.findOne({userId: Meteor.userId()}));
-
-		Votes.insert({
+        Votes.insert({
 			userId: Meteor.userId(),
 			pollId: poll && poll._id,
 			timestamp: moment().valueOf(),
 			option: pollOption.valueOf()
-		}, function (err) {
+        }, function (err) {
 			if (err) {
                 template.hasSubmissionError.set(true);
 			} else {
@@ -46,6 +44,7 @@ Template.pollDetails.helpers({
 		return Votes.find({option: pollOption.valueOf()}).count();
 	},
     'hasUserVoted': function () {
-        return Votes.findOne({userId: Meteor.userId()});
+        var poll = Template.currentData();
+        return Votes.findOne({userId: Meteor.userId(), pollId: poll._id});
     }
 });
