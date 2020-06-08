@@ -10,7 +10,11 @@ Template.homePage.created = function() {
         var oldPollCount = Session.get('oldPollCount');
 
         // If the oldPollCount is greater than or equal to the pollCount then all polls have been loaded so hide "Load More Polls"
-        oldPollCount >= pollsCount ? template.showLoadMore.set(false) : template.showLoadMore.set(true);
+        if (oldPollCount >= pollsCount) {
+            template.showLoadMore.set(false);
+        } else {
+            template.showLoadMore.set(true);
+        }
 	});
 };
 
@@ -18,15 +22,11 @@ Template.homePage.events = {
     'click a[href="load-more"]': function(event) {
         event.preventDefault();
         var template = Template.instance();
-        //TODO: Pick a number to increment Loading more
         var numOfShownPolls = Session.get('defaultPollLimit') + Session.get('incrementPollLimit');
         Session.set('defaultPollLimit', numOfShownPolls);
 
-
         var pollsCount = template.pollCount.get();
         var oldPollCount = Session.get('oldPollCount');
-        console.log('poll.count', pollsCount);
-        console.log('oldPollCount Session', Session.get('oldPollCount'));
 
         // Update the old Poll Count to keep track if the "Load More Polls" link should be enabled
         if (oldPollCount < pollsCount) {

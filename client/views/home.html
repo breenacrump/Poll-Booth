@@ -18,11 +18,9 @@
 				{{/if}}
 				<div class="row poll-list">
 					{{#each poll in polls}}
-						<!--{{#unless expiredPoll poll}}-->
-							<div class="col-md-6">
-								{{>pollListItem poll}}
-							</div>
-						<!--{{/unless}}-->
+						<div class="col-md-6">
+							{{>pollListItem poll}}
+						</div>
 					{{else}}
 						<div class="col-md-6 col-md-offset-3">
 							<div class="alert alert-info text-center" role="alert">

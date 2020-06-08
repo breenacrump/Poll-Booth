@@ -1,1 +1,1 @@
-Session.set({defaultPollLimit: 5, incrementPollLimit: 2, oldPollCount: 0});
+Session.set({defaultPollLimit: 20, incrementPollLimit: 10, oldPollCount: 0});
