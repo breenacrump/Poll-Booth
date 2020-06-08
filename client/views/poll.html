@@ -1,15 +1,18 @@
 <template name="pollListItem">
 	<div class="poll-list-item">
         <div class="row">
-            <div class="col-sm-9 poll-list-item-end-time {{# unless endTime}} poll-list-item-unlimited {{/unless}}">
+            <div class="col-sm-9 poll-list-item-warning {{# unless endTime}} poll-list-item-unlimited {{/unless}}">
                 Days Remaining: {{#if endTime}} {{getDaysRemaining endTime}} {{else}} Unlimited {{/if}}
             </div>
             <div class="col-sm-3 poll-list-item-votes">
                 Votes: {{allVotes}}
             </div>
-            <div class="col-sm-12 poll-list-item-end-time">
-                {{#if endTime}} End Time: {{endTime}} {{/if}}
-            </div>
+            <!--{{#if endTime}}-->
+                <div class="col-sm-12 poll-list-item-warning {{#if endTime}} poll-list-item-end-time-visible {{else}} poll-list-item-end-time-hidden {{/if}}">
+                    <!--{{#if endTime}} End Time: {{endTime}} {{/if}}-->
+                    End Time: {{endTime}}
+                </div>
+            <!--{{/if}}-->
             <div class="col-sm-12 text-center">
 				<div class="poll-list-item-title">
                     {{title}}

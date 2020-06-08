@@ -1,35 +1,44 @@
 <template name="homePage">
 	<div id="homePage">
 		{{#if currentUser}}
-		<div class="container">
-			<div class="row">
-				<div class="col-md-6 col-md-offset-3 text-center">
-                    {{>newPoll}}
-                </div>
-			</div>
-			<div class="row poll-list">
-				{{#each poll in polls}}
-					{{#unless expiredPoll poll}}
-						<div class="col-md-6">
-							{{>pollListItem poll}}
-						</div>
-					{{/unless}}
-                {{else}}
-					<div class="col-md-6 col-md-offset-3">
-						<div class="alert alert-info text-center" role="alert">
-							<i class="fa fa-arrow-up fa-3x"></i>
-                            <br/>
-                            Looks like there aren't any polls yet. Click 'Create New Poll' above to get started.
-                        </div>
+			<div class="container homePage-poll-container">
+				<div class="row">
+					<div class="col-md-6 col-md-offset-3 text-center">
+						{{>newPoll}}
 					</div>
-				{{/each}}
+				</div>
+				{{#if reactiveVarEquals 'showLoadMore' true}}
+					<div class="homePage-load-more-link-container">
+						<a href="load-more" class="homePage-load-more-link">Load more polls</a>
+					</div>
+				{{else}}
+					<div class="homePage-load-more-link-container">
+						<span class="homePage-load-more-link">All polls are loaded</span>
+					</div>
+				{{/if}}
+				<div class="row poll-list">
+					{{#each poll in polls}}
+						<!--{{#unless expiredPoll poll}}-->
+							<div class="col-md-6">
+								{{>pollListItem poll}}
+							</div>
+						<!--{{/unless}}-->
+					{{else}}
+						<div class="col-md-6 col-md-offset-3">
+							<div class="alert alert-info text-center" role="alert">
+								<i class="fa fa-arrow-up fa-3x"></i>
+								<br/>
+								Looks like there aren't any polls yet. Click 'Create New Poll' above to get started.
+							</div>
+						</div>
+					{{/each}}
+				</div>
 			</div>
-        </div>
 		{{else}}
-		<div class="homePage-unauthenticated-container">
-			<h1>Welcome to the Poll Booth</h1>
-			<h3>Please Sign In or Create an account to Vote or Create a poll.</h3>
-		</div>
+			<div class="homePage-unauthenticated-container">
+				<h1>Welcome to the Poll Booth</h1>
+				<h3>Please Sign In or Create an account to Vote or Create a poll.</h3>
+			</div>
 		{{/if}}
     </div>
 </template>

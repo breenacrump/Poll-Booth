@@ -28,6 +28,11 @@
 			border-color: #ff284d;
 		}
 
+		.new-poll-create-error {
+			color: #e52648;
+			font-size: 15px;
+		}
+
 		.new-poll-title-invalid {
 			margin-bottom: 0 !important;
 		}
@@ -59,7 +64,7 @@
 
 		.new-poll-dialogue-footer {
 			text-align: end;
-			padding-right: 20px;
+			padding: 0 20px 10px 0;
 		}
 	}
 }
@@ -103,6 +108,8 @@
 
 //POLL LIST
 .poll-list{
+	padding-top: 10px;
+
 	.alert{
 		margin-top: 5px;
 		padding-top: 5px;
@@ -115,9 +122,9 @@
 	background: white;
 	border-radius: 3px;
 	border: 1px solid @medium-blue-gray;
-	padding: 5px;
-	margin-top: 5px;
-	min-height: 52px;
+	padding: 10px;
+	margin: 10px 0;
+	height: 150px;
 	vertical-align: middle;
 	button{
 		margin-top: 2px;
@@ -127,14 +134,23 @@
 		margin-top: 5px;
 		font-size: 25px;
 		vertical-align: middle;
+		padding-bottom: 5px;
 	}
 
 	.poll-list-item-votes {
 		text-align: right;
 	}
 
-	.poll-list-item-end-time {
+	.poll-list-item-warning {
 		color: red;
+	}
+
+	.poll-list-item-end-time-visible {
+		visibility: visible;
+	}
+
+	.poll-list-item-end-time-hidden {
+		visibility: hidden;
 	}
 
 	.poll-list-item-unlimited {

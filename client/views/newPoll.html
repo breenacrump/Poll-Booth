@@ -7,6 +7,9 @@
         {{#if reactiveVarEquals 'creatingPoll' true}}
             <div class="new-poll-dialogue">
 				<h4>Create New Poll</h4>
+				{{#if reactiveVarEquals 'createError' true}}
+					<span class="new-poll-create-error">Create error. Please try again.</span>
+				{{/if}}
 				<div class="row">
 					<input class="{{#if reactiveVarEquals 'invalid' true}}new-poll-title-invalid{{/if}}" id="newPollTitle" type="text" placeholder="Poll Title"/>
 					{{#if reactiveVarEquals 'invalid' true}}
@@ -16,23 +19,11 @@
 				<div class="row">
 					<textarea id="newPollDescription" placeholder="Description of what we're voting on"></textarea>
 				</div>
-				<!--<div class="input-group datetimepicker">-->
-					<!--<input class="set-due-date form-control" type="text"/>-->
-					<!--<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>-->
-					<!--<p>{{show_date}}</p>-->
-				<!--</div>-->
-
-				<!--<div class="input-group datetimepicker">-->
-					<!--<span class="input-group-addon"><i class="fa fa-calendar"></i></span>-->
-					<!--<input class="set-due-date form-control" type="text" id="closingdate"/>-->
-				<!--</div>-->
-
-
 				<div class="row">
 					<div class='new-poll-time-picker'>
 						<div class="form-group">
 							<div class='input-group date' id='datetimepicker'>
-								<input type='text' class="form-control" placeholder="Poll End time" />
+								<input type='text' class="form-control" placeholder="Poll end time" />
 								<span class="input-group-addon">
 									<span class="glyphicon glyphicon-calendar"></span>
 								</span>

@@ -2,13 +2,15 @@
 //PUBLICATIONS
 //****************
 
-Meteor.publish('polls', function () {
+Meteor.publish('polls', function (limit) {
 	check(arguments, [Match.Any]);
+
+	var options = limit ? {sort: {timestamp: -1}, limit: limit} : {sort: {timestamp: -1}};
+
 	return [
-		Polls.find({}),
+		Polls.find({}, options),
 		Votes.find({})
 	]
-
 });
 
 

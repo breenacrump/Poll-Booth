@@ -19,7 +19,7 @@ Template.pollListItem.helpers({
     }
 });
 
-Template.pollDetails.created = function(){
+Template.pollDetails.created = function() {
     var template = this;
     template.isSubmitted = new ReactiveVar(false);
     template.hasSubmissionError = new ReactiveVar(false);
@@ -33,11 +33,6 @@ Template.pollDetails.events = {
 		var template = Template.instance();
 		var poll = Template.currentData();
 		var pollOption = this;
-
-		//If I want to let the user see the polls but just stop them from voting
-		// if (!Meteor.userId()){
-		// 	throw new Meteor.Error('not-authorized');
-		// }
 
         Votes.insert({
 			userId: Meteor.userId(),
@@ -55,7 +50,7 @@ Template.pollDetails.events = {
 };
 
 Template.pollDetails.helpers({
-	'voteCountForOption': function(){
+	'voteCountForOption': function() {
 		var pollOption = this;
 		return Votes.find({option: pollOption.valueOf()}).count();
 	},

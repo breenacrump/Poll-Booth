@@ -4,18 +4,8 @@ Template.newPoll.created = function(){
 	template.invalid = new ReactiveVar(false);
 	template.addedOptions =  new ReactiveVar([{placeholder: 'Option 1'}, {placeholder: 'Option 2'}]);
 	template.isOptionCountInvalid = new ReactiveVar(false);
+    template.createError = new ReactiveVar(false);
 };
-
-// Template.newPoll.rendered = function() {
-//     // var template = Template.instance();
-//     // this.$('.datetimepicker').datetimepicker({
-//     // }).on('dp.change', function(e){
-//     //     Session.set("selected", e.date.format());
-//     // });
-//     this.$('#datetimepicker').datetimepicker({
-//
-// 	});
-// };
 
 Template.newPoll.events = {
 	'click button[data-action="open-new-poll-input"]': function(event){
@@ -46,8 +36,15 @@ Template.newPoll.events = {
             	timestamp: moment().valueOf(),
             	options: options,
                 endTime: endTime
+            }, function (err) {
+                if (err) {
+                    // If there is an error keep modal open and display error message
+                    template.creatingPoll.set(true);
+                    template.createError.set(true);
+                } else {
+                    template.creatingPoll.set(false);
+                }
             });
-            template.creatingPoll.set(false);
 		} else {
 			// Both title and option count is invalid
 			if (!template.$('#newPollTitle').val() && options.length < 2) {
